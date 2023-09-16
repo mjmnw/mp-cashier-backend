@@ -2,14 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable("products_categories", {
+        await queryInterface.createTable("users_roles", {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            name: {
+            user_role: {
                 type: Sequelize.STRING,
             },
             createdAt: {
@@ -20,13 +20,9 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE,
             },
-            deletedAt: {
-                allowNull: false,
-                type: Sequelize.DATE,
-            },
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable("products_categories");
+        await queryInterface.dropTable("users_roles");
     },
 };

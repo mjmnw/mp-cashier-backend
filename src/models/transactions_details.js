@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     transactions_details.init(
         {
-            quantity: DataTypes.INTEGER,
+            transaction_quantity: DataTypes.INTEGER,
             createdAt: {
                 type: DataTypes.DATE,
                 defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),

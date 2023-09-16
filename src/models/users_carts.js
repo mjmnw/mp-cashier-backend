@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     }
     users_carts.init(
         {
-            total_price: DataTypes.DECIMAL,
-            quantity: DataTypes.INTEGER,
+            cart_total_price: DataTypes.DECIMAL,
+            cart_quantity: DataTypes.INTEGER,
             createdAt: {
                 type: DataTypes.DATE,
                 defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),

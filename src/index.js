@@ -12,9 +12,8 @@ app.get("/", (req, res) => {
 });
 
 // Import Router
-// const { hotelRouter, userRouter } = require("./routers");
-// app.use("/user", userRouter);
-// app.use("/hotel", hotelRouter);
+const { authRouter } = require("./routers");
+app.use("/auth", authRouter);
 
 // Centralized Error
 app.use((err, req, res, next) => {

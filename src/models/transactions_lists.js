@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     }
     transactions_lists.init(
         {
-            total_price: DataTypes.DECIMAL,
-            status: DataTypes.STRING,
+            transaction_total_price: DataTypes.DECIMAL,
+            transaction_status: DataTypes.STRING,
             createdAt: {
                 type: DataTypes.DATE,
                 defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),

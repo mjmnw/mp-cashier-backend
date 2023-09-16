@@ -9,19 +9,19 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            name: {
+            product_name: {
                 type: Sequelize.STRING,
             },
-            description: {
+            product_description: {
                 type: Sequelize.STRING,
             },
-            price: {
+            product_price: {
                 type: Sequelize.DECIMAL,
             },
-            stock: {
+            product_stock: {
                 type: Sequelize.INTEGER,
             },
-            image: {
+            product_image: {
                 type: Sequelize.STRING,
             },
             createdAt: {

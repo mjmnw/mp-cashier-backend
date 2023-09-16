@@ -1,14 +1,14 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-    class products_category extends Model {
-        static associate({ products }) {
-            this.hasMany(products, { foreignKey: "products_category_id" });
+    class users_roles extends Model {
+        static associate({ users }) {
+            this.hasMany(users, { foreignKey: "users_roles_id" });
         }
     }
-    products_category.init(
+    users_roles.init(
         {
-            name: DataTypes.STRING,
+            user_role: DataTypes.STRING,
             createdAt: {
                 type: DataTypes.DATE,
                 defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
@@ -17,15 +17,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.DATE,
                 defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
             },
-            deletedAt: {
-                type: DataTypes.DATE,
-                defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-            },
         },
         {
             sequelize,
-            modelName: "products_category",
+            modelName: "users_roles",
         }
     );
-    return products_category;
+    return users_roles;
 };
