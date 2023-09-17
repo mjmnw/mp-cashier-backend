@@ -1,5 +1,24 @@
-const UserService = require("../services/userService")
+const UserService = require("../services/userService");
 
-const userControllers = {}
+const userControllers = {
+    getUserById: async (req, res) => {
+        try {
+            const { userId } = req.params;
+            const serviceResult = await UserService.getUserById(userId);
 
-module.exports = userControllers
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
+};
+
+module.exports = userControllers;

@@ -16,8 +16,9 @@ app.get("/", (req, res) => {
 
 // Import Router
 const { authRouter } = require("./routers");
+const { userRouter } = require("./routers");
 app.use("/auth", authRouter);
-
+app.use("/user", userRouter);
 
 // Centralized Error
 app.use((err, req, res, next) => {
