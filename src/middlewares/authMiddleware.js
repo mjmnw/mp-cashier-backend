@@ -4,10 +4,10 @@ const { verifyToken } = require("../lib/jwt");
 
 const authorizeLoggedInUser = (req, res, next) => {
     try {
-        const token = req.headers.authorization;
-        const verifyToken = verifyToken(token);
+        const tokens = req.headers.authorization;
+        const verifiedToken = verifyToken(tokens);
 
-        req.token = verifyToken;
+        req.tokens = verifiedToken;
 
         next();
     } catch (error) {

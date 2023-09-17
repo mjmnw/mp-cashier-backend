@@ -1,9 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const dotenv = require("dotenv");
 app.use(cors());
 app.use(express.json()); // Body Parser: Mengambil data yang dikirimkan oleh client melalui body
 app.use(express.static("public"));
+
+dotenv.config();
 
 const PORT = 5000;
 
@@ -14,6 +17,7 @@ app.get("/", (req, res) => {
 // Import Router
 const { authRouter } = require("./routers");
 app.use("/auth", authRouter);
+
 
 // Centralized Error
 app.use((err, req, res, next) => {
