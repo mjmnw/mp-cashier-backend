@@ -1,3 +1,6 @@
-const router = require("express").Router()
+const router = require("express").Router();
+const adminController = require("../controllers/adminController");
 
-module.exports = router
+router.post("/addproduct", adminController.addProduct);
+
+module.exports = router;

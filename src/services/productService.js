@@ -33,39 +33,6 @@ class ProductService extends Service {
             });
         }
     };
-
-    static addProduct = async (
-        product_name,
-        product_description,
-        product_price,
-        product_stock,
-        product_image,
-        products_statuses_id,
-        products_categories_id
-    ) => {
-        try {
-            const registerProduct = await db.products.create({
-                product_name,
-                product_description,
-                product_price,
-                product_stock,
-                product_image,
-                products_statuses_id,
-                products_categories_id,
-            });
-            return this.handleSuccess({
-                statusCode: 201,
-                message: "Product Create Success",
-                data: registerProduct,
-            });
-        } catch (error) {
-            console.log(error);
-            return this.handleError({
-                statusCode: 500,
-                message: "Server Error",
-            });
-        }
-    };
 }
 
 module.exports = ProductService;
