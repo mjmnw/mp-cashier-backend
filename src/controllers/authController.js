@@ -15,8 +15,6 @@ const authControllers = {
                 users_roles_id,
             } = req.body;
 
-            console.log(req.body);
-
             const serviceResult = await AuthService.createCashier(
                 username,
                 password,
@@ -28,9 +26,8 @@ const authControllers = {
                 users_statuses_id,
                 users_roles_id
             );
-            if (!serviceResult.success) {
-                throw serviceResult;
-            }
+            if (!serviceResult.success) throw serviceResult;
+
             return res.status(serviceResult.statusCode || 200).json({
                 message: serviceResult.message,
                 result: serviceResult.data,
