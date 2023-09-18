@@ -17,11 +17,9 @@ class AdminService extends Service {
         products_categories_id
     ) => {
         try {
-            const { productName } = req.params;
-
             const productNameTaken = await db.products.findOne({
                 where: {
-                    product_name: productName,
+                    product_name,
                 },
             });
 
@@ -45,6 +43,75 @@ class AdminService extends Service {
                 statusCode: 201,
                 message: "Product Create Success",
                 data: registerProduct,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
+    static deleteProduct = async (id) => {
+        try {
+            const findProduct = await db.products.findOne({
+                where: {
+                    id,
+                },
+            });
+
+            if (!findProduct)
+                return this.handleError({
+                    statusCode: 404,
+                    message: "Product Not Found",
+                });
+
+            const deletedProduct = await db.products.destroy({
+                where: {
+                    id,
+                },
+            });
+
+            return this.handleSuccess({
+                statusCode: 201,
+                message: "Product Delete Success",
+                data: deletedProduct,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
+    static addProductCategory = async (product_category) => {
+        try {
+            const findProductCategory = await db.products_categories.findOne({
+                where: {
+                    product_category,
+                },
+            });
+
+            if (findProductCategory) {
+                return this.handleError({
+                    statusCode: 400,
+                    message: "Product category has been taken",
+                });
+            }
+
+            const registerProductCategory = await db.products_categories.create(
+                {
+                    product_category,
+                }
+            );
+
+            return this.handleSuccess({
+                statusCode: 201,
+                message: "Category Create Success",
+                data: registerProductCategory,
             });
         } catch (error) {
             console.log(error);

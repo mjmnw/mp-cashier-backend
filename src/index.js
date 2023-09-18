@@ -18,9 +18,11 @@ app.get("/", (req, res) => {
 const { authRouter } = require("./routers");
 const { userRouter } = require("./routers");
 const { productRouter } = require("./routers");
+const { adminRouter } = require("./routers");
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/product", productRouter);
+app.use("/admin", adminRouter);
 
 // Centralized Error
 app.use((err, req, res, next) => {
