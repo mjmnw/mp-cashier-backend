@@ -56,10 +56,8 @@ class AdminService extends Service {
         }
     };
 
-    static deleteUser = async (req) => {
+    static deleteUser = async (userId) => {
         try {
-            const { userId } = req.params;
-
             const findUser = await db.users.findOne({
                 where: {
                     id: userId,
@@ -82,6 +80,55 @@ class AdminService extends Service {
                 statusCode: 201,
                 message: "User Delete Success",
                 data: deletedUser,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
+    static editUser = async (req, body) => {
+        try {
+            const { userId } = req.params;
+
+            const findUser = await db.users.findOne({
+                where: {
+                    id: userId,
+                },
+            });
+
+            if (!findUser) {
+                return this.handleError({
+                    statusCode: 404,
+                    message: `User with ID: ${userId} not Found!`,
+                });
+            }
+
+            const editUserData = await db.users.update(
+                {
+                    username: body.username,
+                    fullname: body.fullname,
+                    email: body.email,
+                    birthdate: body.birthdate,
+                    phone_number: body.phone_number,
+                    address: body.address,
+                    users_statuses_id: body.users_statuses_id,
+                    users_roles_id: body.users_roles_id,
+                },
+                {
+                    where: {
+                        id: userId,
+                    },
+                }
+            );
+
+            return this.handleSuccess({
+                message: "User Edit Success",
+                statusCode: 200,
+                data: editUserData,
             });
         } catch (error) {
             console.log(error);
@@ -140,9 +187,8 @@ class AdminService extends Service {
         }
     };
 
-    static deleteProduct = async (req) => {
+    static deleteProduct = async (productId) => {
         try {
-            const { productId } = req.params;
             const findProduct = await db.products.findOne({
                 where: {
                     id: productId,
@@ -152,7 +198,7 @@ class AdminService extends Service {
             if (!findProduct)
                 return this.handleError({
                     statusCode: 404,
-                    message: "Product Not Found",
+                    message: `Product with Product ID: ${productId} Not Found!`,
                 });
 
             const deletedProduct = await db.products.destroy({
@@ -175,6 +221,7 @@ class AdminService extends Service {
         }
     };
 
+    // Product Category
     static addProductCategory = async (product_category) => {
         try {
             const findProductCategory = await db.products_categories.findOne({

@@ -43,7 +43,38 @@ const adminControllers = {
 
     deleteUser: async (req, res) => {
         try {
-            const serviceResult = await AdminService.deleteUser(req);
+            const serviceResult = await AdminService.deleteUser(
+                req.params.userId
+            );
+
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
+
+    editUser: async (req, res) => {
+        try {
+            const {
+                username,
+                fullname,
+                email,
+                birthdate,
+                phone_number,
+                address,
+                users_statuses_id,
+                users_roles_id,
+            } = req.body;
+
+            const serviceResult = await AdminService.editUser(req, req.body);
 
             if (!serviceResult.success) throw serviceResult;
 
@@ -98,7 +129,9 @@ const adminControllers = {
 
     deleteProduct: async (req, res) => {
         try {
-            const serviceResult = await AdminService.deleteProduct(req);
+            const serviceResult = await AdminService.deleteProduct(
+                req.params.productId
+            );
 
             if (!serviceResult.success) throw serviceResult;
 
