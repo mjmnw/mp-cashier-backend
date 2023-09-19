@@ -21,7 +21,9 @@ const productControllers = {
 
     getAllProducts: async (req, res) => {
         try {
-            const serviceResult = await ProductService.getAllProducts(req.query);
+            const serviceResult = await ProductService.getAllProducts(
+                req.query
+            );
 
             if (!serviceResult.success) throw serviceResult;
 

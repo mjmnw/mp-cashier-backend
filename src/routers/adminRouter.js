@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const adminController = require("../controllers/adminController");
 const authorizeLoggedInUser = require("../middlewares/authMiddleware");
+const adminController = require("../controllers/adminController");
 
 // Cashier
 router.post("/register", adminController.createUser);

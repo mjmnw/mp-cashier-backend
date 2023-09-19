@@ -33,6 +33,50 @@ class UserService extends Service {
             });
         }
     };
+
+    static editUser = async (req, body) => {
+        try {
+            const { userId } = req.params;
+
+            const findUser = await db.users.findOne({
+                where: {
+                    id: userId,
+                },
+            });
+
+            if (!findUser) {
+                return this.handleError({
+                    statusCode: 404,
+                    message: `User with ID: ${userId} not Found!`,
+                });
+            }
+
+            const editUserData = await db.users.update(
+                {
+                    email: body.email,
+                    phone_number: body.phone_number,
+                    address: body.address,
+                },
+                {
+                    where: {
+                        id: userId,
+                    },
+                }
+            );
+
+            return this.handleSuccess({
+                message: "User Edit Success",
+                statusCode: 200,
+                data: editUserData,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
 }
 
 module.exports = UserService;
