@@ -256,6 +256,84 @@ class AdminService extends Service {
             });
         }
     };
+
+    static deleteProductCategory = async (productCategoryId) => {
+        try {
+            const findProductCategory = await db.products_categories.findOne({
+                where: {
+                    id: productCategoryId,
+                },
+            });
+
+            if (!findProductCategory)
+                return this.handleError({
+                    statusCode: 404,
+                    message: `Product Category with ID: ${productCategoryId} Not Found!`,
+                });
+
+            const deletedProductCategory = await db.products_categories.destroy(
+                {
+                    where: {
+                        id: productCategoryId,
+                    },
+                }
+            );
+
+            return this.handleSuccess({
+                statusCode: 201,
+                message: "Product Delete Success",
+                data: deletedProductCategory,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
+    static editProductCategory = async (req, body) => {
+        try {
+            const { productCategoryId } = req.params;
+
+            const findProductCategory = await db.products_categories.findOne({
+                where: {
+                    id: productCategoryId,
+                },
+            });
+
+            if (!findProductCategory) {
+                return this.handleError({
+                    statusCode: 404,
+                    message: `Product with ID: ${productCategoryId} not Found!`,
+                });
+            }
+
+            const editProductCategoryData = await db.products_categories.update(
+                {
+                    product_category: body.product_category,
+                },
+                {
+                    where: {
+                        id: productCategoryId,
+                    },
+                }
+            );
+
+            return this.handleSuccess({
+                message: "Product Category Edit Success",
+                statusCode: 200,
+                data: editProductCategoryData,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
 }
 
 module.exports = AdminService;

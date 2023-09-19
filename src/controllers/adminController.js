@@ -147,12 +147,79 @@ const adminControllers = {
         }
     },
 
+    editProduct: async (req, res) => {
+        try {
+            const {
+                product_name,
+                product_description,
+                product_price,
+                products_statuses_id,
+                products_categories_id,
+            } = req.body;
+
+            const serviceResult = await AdminService.editProduct(req, req.body);
+
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
+
+    // Category
     addProductCategory: async (req, res) => {
         try {
             const { product_category } = req.body;
             const serviceResult = await AdminService.addProductCategory(
                 product_category
             );
+
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
+
+    deleteProductCategory: async (req, res) => {
+        try {
+            const serviceResult = await AdminService.deleteProductCategory(
+                req.params.productCategoryId
+            );
+
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
+
+    editProductCategory: async (req, res) => {
+        try {
+            const { product_category } = req.body;
+
+            const serviceResult = await AdminService.editProductCategory(req, req.body);
 
             if (!serviceResult.success) throw serviceResult;
 
