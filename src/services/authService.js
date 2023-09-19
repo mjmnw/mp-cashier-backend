@@ -6,56 +6,6 @@ const bcrypt = require("bcrypt");
 const { generateToken } = require("../lib/jwt");
 
 class AuthService extends Service {
-    static createCashier = async (
-        username,
-        password,
-        fullname,
-        email,
-        birthdate,
-        phone_number,
-        address,
-        users_statuses_id,
-        users_roles_id
-    ) => {
-        try {
-            const isUsernameOrEmailTaken = await db.users.findOne({
-                where: { [Op.or]: [{ username }, { email }] },
-            });
-
-            if (isUsernameOrEmailTaken) {
-                return this.handleError({
-                    statusCode: 400,
-                    message: "Username or Email has been taken.",
-                });
-            }
-            const hashPassword = bcrypt.hashSync(password, 5);
-
-            const registerCashier = await db.users.create({
-                username,
-                password: hashPassword,
-                fullname,
-                email,
-                birthdate,
-                phone_number,
-                address,
-                users_statuses_id,
-                users_roles_id,
-            });
-
-            return this.handleSuccess({
-                statusCode: 201,
-                message: "Account Create Success",
-                data: registerCashier,
-            });
-        } catch (error) {
-            console.log(error);
-            return this.handleError({
-                statusCode: 500,
-                message: "Server Error",
-            });
-        }
-    };
-
     static loginUser = async (username, password) => {
         try {
             const findUser = await db.users.findOne({
@@ -115,6 +65,52 @@ class AuthService extends Service {
                 data: {
                     tokens: renewedToken,
                 },
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
+    static changePassword = async (userId, oldPassword, newPassword) => {
+        try {
+            const findUser = await db.users.findByPk(userId);
+
+            if (!findUser)
+                return this.handleError({
+                    message: `User with ID: ${userId} not Found!`,
+                    statusCode: 400,
+                });
+
+            const comparePassword = bcrypt.compareSync(
+                oldPassword,
+                findUser.password
+            );
+
+            if (!comparePassword)
+                return this.handleError({
+                    message: `Your current password is wrong!`,
+                    statusCode: 400,
+                });
+
+            const newHashedPassword = bcrypt.hashSync(newPassword, 5);
+
+            await db.users.update(
+                {
+                    password: newHashedPassword,
+                },
+                {
+                    where: {
+                        id: userId,
+                    },
+                }
+            );
+            return this.handleSuccess({
+                message: "Your password has been changed!",
+                statusCode: 200,
             });
         } catch (error) {
             console.log(error);

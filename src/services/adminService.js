@@ -1,9 +1,96 @@
 const Service = require("./service");
 const db = require("../models/");
 const { sequelize } = require("../models");
+const bcrypt = require("bcrypt");
+const { Op } = require("sequelize");
 
 class AdminService extends Service {
     // Cashier
+    static createUser = async (
+        username,
+        password,
+        fullname,
+        email,
+        birthdate,
+        phone_number,
+        address,
+        users_statuses_id,
+        users_roles_id
+    ) => {
+        try {
+            const isUsernameOrEmailTaken = await db.users.findOne({
+                where: { [Op.or]: [{ username }, { email }] },
+            });
+
+            if (isUsernameOrEmailTaken) {
+                return this.handleError({
+                    statusCode: 400,
+                    message: "Username or Email has been taken.",
+                });
+            }
+            const hashPassword = bcrypt.hashSync(password, 5);
+
+            const registerCashier = await db.users.create({
+                username,
+                password: hashPassword,
+                fullname,
+                email,
+                birthdate,
+                phone_number,
+                address,
+                users_statuses_id,
+                users_roles_id,
+            });
+
+            return this.handleSuccess({
+                statusCode: 201,
+                message: "Account Create Success",
+                data: registerCashier,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
+    static deleteUser = async (req) => {
+        try {
+            const { userId } = req.params;
+
+            const findUser = await db.users.findOne({
+                where: {
+                    id: userId,
+                },
+            });
+
+            if (!findUser)
+                return this.handleError({
+                    statusCode: 404,
+                    message: `User with ID: ${userId} not Found!`,
+                });
+
+            const deletedUser = await db.users.destroy({
+                where: {
+                    id: userId,
+                },
+            });
+
+            return this.handleSuccess({
+                statusCode: 201,
+                message: "User Delete Success",
+                data: deletedUser,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
 
     // Products
 
@@ -53,11 +140,12 @@ class AdminService extends Service {
         }
     };
 
-    static deleteProduct = async (id) => {
+    static deleteProduct = async (req) => {
         try {
+            const { productId } = req.params;
             const findProduct = await db.products.findOne({
                 where: {
-                    id,
+                    id: productId,
                 },
             });
 
@@ -69,7 +157,7 @@ class AdminService extends Service {
 
             const deletedProduct = await db.products.destroy({
                 where: {
-                    id,
+                    id: productId,
                 },
             });
 

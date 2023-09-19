@@ -1,7 +1,63 @@
 const AdminService = require("../services/adminService");
 
 const adminControllers = {
-    // Cashier
+    // User
+    createUser: async (req, res) => {
+        try {
+            const {
+                username,
+                password,
+                fullname,
+                email,
+                birthdate,
+                phone_number,
+                address,
+                users_statuses_id,
+                users_roles_id,
+            } = req.body;
+
+            const serviceResult = await AdminService.createUser(
+                username,
+                password,
+                fullname,
+                email,
+                birthdate,
+                phone_number,
+                address,
+                users_statuses_id,
+                users_roles_id
+            );
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
+
+    deleteUser: async (req, res) => {
+        try {
+            const serviceResult = await AdminService.deleteUser(req);
+
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
 
     // Product
     addProduct: async (req, res) => {
@@ -42,8 +98,7 @@ const adminControllers = {
 
     deleteProduct: async (req, res) => {
         try {
-            const { id } = req.params;
-            const serviceResult = await AdminService.deleteProduct(id);
+            const serviceResult = await AdminService.deleteProduct(req);
 
             if (!serviceResult.success) throw serviceResult;
 
