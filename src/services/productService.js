@@ -1,6 +1,6 @@
 const Service = require("./service");
-const db = require("../models/");
 const { sequelize } = require("../models");
+const db = require("../models/");
 const { Op } = require("sequelize");
 
 class ProductService extends Service {

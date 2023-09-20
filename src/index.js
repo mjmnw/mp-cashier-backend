@@ -3,7 +3,7 @@ const cors = require("cors");
 const app = express();
 const dotenv = require("dotenv");
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 app.use(express.static("public"));
 
 dotenv.config();
@@ -19,10 +19,12 @@ const { authRouter } = require("./routers");
 const { userRouter } = require("./routers");
 const { productRouter } = require("./routers");
 const { adminRouter } = require("./routers");
+const { cartRouter } = require("./routers");
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/admin", adminRouter);
+app.use("/cart", cartRouter);
 
 // Centralized Error
 app.use((err, req, res, next) => {
