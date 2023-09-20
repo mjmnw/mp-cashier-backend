@@ -190,6 +190,39 @@ class CartService extends Service {
             });
         }
     };
+
+    static deleteCartByCartId = async (cartId) => {
+        try {
+            const findCart = await db.users_carts.findOne({
+                where: {
+                    id: cartId,
+                },
+            });
+
+            if (!findCart) {
+                return this.handleError({
+                    statusCode: 404,
+                    message: "Cart not Found",
+                });
+            }
+            const deleteCart = await db.users_carts.destroy({
+                where: {
+                    id: cartId,
+                },
+            });
+            return this.handleSuccess({
+                message: "Cart Deleted",
+                statusCode: 200,
+                data: deleteCart,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                message: "Server Error",
+                statusCode: 500,
+            });
+        }
+    };
 }
 
 module.exports = CartService;

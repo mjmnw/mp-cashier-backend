@@ -19,9 +19,15 @@ router.patch(
     cartController.editCart
 );
 router.delete(
-    "/delete-cart/cart=:userId",
+    "/delete-cart/user=:userId",
     authorizeLoggedInUser,
     cartController.deleteCartByUserId
+);
+
+router.delete(
+    "/delete-cart/cart=:cartId",
+    authorizeLoggedInUser,
+    cartController.deleteCartByCartId
 );
 
 module.exports = router;

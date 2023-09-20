@@ -105,6 +105,25 @@ const cartControllers = {
         }
     },
 
+    deleteCartByCartId: async (req, res) => {
+        try {
+            const serviceResult = await CartService.deleteCartByCartId(
+                req.params.cartId
+            );
+
+            if (!serviceResult) throw serviceResult;
+
+            return res.status(serviceResult.statusCode).json({
+                message: serviceResult.message,
+                data: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
 };
 
 module.exports = cartControllers;
