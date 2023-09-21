@@ -8,14 +8,12 @@ module.exports = (sequelize, DataTypes) => {
             users_carts,
             transactions_lists,
             reset_password_tokens,
-            forget_password_tokens,
         }) {
             this.belongsTo(users_statuses, { foreignKey: "users_statuses_id" });
             this.belongsTo(users_roles, { foreignKey: "users_roles_id" });
             this.hasMany(users_carts, { foreignKey: "users_id" });
             this.hasMany(transactions_lists, { foreignKey: "users_id" });
             this.hasMany(reset_password_tokens, { foreignKey: "users_id" });
-            this.hasMany(forget_password_tokens, { foreignKey: "users_id" });
         }
     }
     users.init(

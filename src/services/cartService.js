@@ -1,7 +1,7 @@
 const Service = require("./service");
 const { sequelize } = require("../models");
 const db = require("../models/");
-const { Op, where } = require("sequelize");
+const { Op } = require("sequelize");
 
 class CartService extends Service {
     static addToCart = async (users_id, products_id, cart_quantity = 1) => {

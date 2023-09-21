@@ -10,6 +10,7 @@ router.delete(
     adminController.deleteUser
 );
 router.patch("/user/:userId", authorizeLoggedInUser, adminController.editUser);
+router.get("/user/", authorizeLoggedInUser, adminController.getAllUsers);
 
 // Product
 router.post("/product", adminController.addProduct);

@@ -139,6 +139,31 @@ class AdminService extends Service {
         }
     };
 
+    static getAllUsers = async (req) => {
+        try {
+            const getUsersData = await db.users.findAll()
+
+            if (!getUsersData.length) {
+                return this.handleError({
+                    message: `No user found`,
+                    statusCode: 404,
+                });
+            }
+
+            return this.handleSuccess({
+                message: `Users found`,
+                statusCode: 200,
+                data: getUsersData,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
     // Products
 
     static addProduct = async (
@@ -211,6 +236,31 @@ class AdminService extends Service {
                 statusCode: 201,
                 message: "Product Delete Success",
                 data: deletedProduct,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
+    static getAllUsers = async (req) => {
+        try {
+            const getUsersData = await db.users.findAll()
+
+            if (!getUsersData.length) {
+                return this.handleError({
+                    message: `No user found`,
+                    statusCode: 404,
+                });
+            }
+
+            return this.handleSuccess({
+                message: `Users found`,
+                statusCode: 200,
+                data: getUsersData,
             });
         } catch (error) {
             console.log(error);

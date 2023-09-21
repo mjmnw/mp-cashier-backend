@@ -4,7 +4,7 @@ const db = require("../models/");
 const { Op } = require("sequelize");
 
 class ProductService extends Service {
-    static getProduct = async (req) => {
+    static getProductById = async (req) => {
         try {
             const { productId } = req.params;
 
@@ -35,7 +35,7 @@ class ProductService extends Service {
         }
     };
 
-    static getAllProducts = async (query) => {
+    static filterProducts = async (query) => {
         try {
             const {
                 _limit = 10,
@@ -106,6 +106,31 @@ class ProductService extends Service {
                 message: "Products Found",
                 statusCode: 200,
                 data: findProducts,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+    
+    static getAllProductCategories = async (req) => {
+        try {
+            const getProductCategoriesData = await db.products_categories.findAll()
+
+            if (!getProductCategoriesData.length) {
+                return this.handleError({
+                    message: `No category found`,
+                    statusCode: 404,
+                });
+            }
+
+            return this.handleSuccess({
+                message: `Product Categories found`,
+                statusCode: 200,
+                data: getProductCategoriesData,
             });
         } catch (error) {
             console.log(error);

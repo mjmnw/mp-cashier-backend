@@ -77,6 +77,17 @@ class UserService extends Service {
             });
         }
     };
+
+    static editUserProfilePicture = async (req, res) => {
+        try {
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
 }
 
 module.exports = UserService;

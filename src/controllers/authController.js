@@ -66,6 +66,51 @@ const authControllers = {
             });
         }
     },
+
+    sendResetPasswordEmail: async (req, res) => {
+        try {
+            const { userEmail } = req.body;
+
+            const serviceResult = await AuthService.sendResetPasswordEmail(
+                userEmail
+            );
+
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
+
+    resetPassword: async (req, res) => {
+        try {
+            const { resetPasswordToken, password } = req.body;
+
+            const serviceResult = await AuthService.resetPassword(
+                resetPasswordToken,
+                password
+            );
+
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
 };
 
 module.exports = authControllers;
