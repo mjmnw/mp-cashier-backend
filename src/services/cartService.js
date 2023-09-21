@@ -13,6 +13,35 @@ class CartService extends Service {
                 },
             });
 
+            const findProduct = await db.products.findOne({
+                where: {
+                    id: products_id,
+                },
+            });
+
+            const findUserCart = await db.users_carts.findOne({
+                where: {
+                    products_id,
+                },
+            });
+
+            if (!findProduct) {
+                return this.handleError({
+                    message: "Product not Found",
+                    statusCode: 404,
+                });
+            }
+
+            if (
+                findProduct.dataValues.product_stock <=
+                findUserCart.cart_quantity
+            ) {
+                return this.handleError({
+                    message: "Stock not Available",
+                    statusCode: 400,
+                });
+            }
+
             if (findCart) {
                 const res = await db.users_carts.update(
                     {
