@@ -23,12 +23,14 @@ const { productRouter } = require("./routers");
 const { adminRouter } = require("./routers");
 const { cartRouter } = require("./routers");
 const { transactionRouter } = require("./routers");
+const { reportRouter } = require("./routers");
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/admin", adminRouter);
 app.use("/cart", cartRouter);
 app.use("/transaction", transactionRouter);
+app.use("/report", reportRouter);
 
 // Centralized Error
 app.use((err, req, res, next) => {

@@ -40,8 +40,8 @@ class ProductService extends Service {
             const {
                 _limit = 10,
                 _page = 1,
-                _sortBy = "",
-                _sortDir = "",
+                _sortBy = "product_price",
+                _sortDir = "ASC",
                 minPrice,
                 maxPrice,
                 minStock,
