@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
     }
     users_carts.init(
         {
-            cart_total_price: DataTypes.DECIMAL,
             cart_quantity: DataTypes.INTEGER,
             createdAt: {
                 type: DataTypes.DATE,

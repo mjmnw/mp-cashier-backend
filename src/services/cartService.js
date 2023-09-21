@@ -55,6 +55,31 @@ class CartService extends Service {
         }
     };
 
+    static getAllCarts = async (req) => {
+        try {
+            const getCartsData = await db.users_carts.findAll();
+
+            if (!getCartsData.length) {
+                return this.handleError({
+                    message: `No cart found`,
+                    statusCode: 404,
+                });
+            }
+
+            return this.handleSuccess({
+                message: `Carts found`,
+                statusCode: 200,
+                data: getCartsData,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
     static getCartByCartId = async (cartId) => {
         try {
             const findCart = await db.users_carts.findAll({

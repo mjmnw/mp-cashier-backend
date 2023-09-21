@@ -3,6 +3,7 @@ const cartController = require("../controllers/cartController");
 const authorizeLoggedInUser = require("../middlewares/authMiddleware");
 
 router.post("/add-to-cart", authorizeLoggedInUser, cartController.addToCart);
+router.get("/", authorizeLoggedInUser, cartController.getAllCarts);
 router.get(
     "/get-cart/cart=:cartId",
     authorizeLoggedInUser,

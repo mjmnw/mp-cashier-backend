@@ -9,9 +9,6 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            cart_total_price: {
-                type: Sequelize.DECIMAL,
-            },
             cart_quantity: {
                 type: Sequelize.INTEGER,
             },
