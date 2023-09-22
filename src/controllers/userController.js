@@ -40,27 +40,28 @@ const userControllers = {
         }
     },
 
-    // editUserProfilePicture: async (req, res) => {
-    //     try {
-    //         const { userId } = req.params
+    editUserProfilePicture: async (req, res) => {
+        try {
+            const { users_id } = req.params;
 
-    //         const { profile_picture } = req.body;
+            const serviceResult = await UserService.editUserProfilePicture(
+                users_id,
+                req.file
+            );
 
-    //         const serviceResult = await UserService.editUserProfilePicture(userId , profile_picture)
+            if (!serviceResult.success) throw serviceResult;
 
-    //         if (!serviceResult.success) throw serviceResult;
-
-    //         return res.status(serviceResult.statusCode || 200).json({
-    //             message: serviceResult.message,
-    //             result: serviceResult.data,
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         return res.status(error.statusCode || 500).json({
-    //             message: error.message,
-    //         });
-    //     }
-    // },
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
 };
 
 module.exports = userControllers;

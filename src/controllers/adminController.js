@@ -12,6 +12,8 @@ const adminControllers = {
                 birthdate,
                 phone_number,
                 address,
+                gender,
+                salary,
                 users_statuses_id,
                 users_roles_id,
             } = req.body;
@@ -24,6 +26,8 @@ const adminControllers = {
                 birthdate,
                 phone_number,
                 address,
+                gender,
+                salary,
                 users_statuses_id,
                 users_roles_id
             );
@@ -70,6 +74,8 @@ const adminControllers = {
                 birthdate,
                 phone_number,
                 address,
+                gender,
+                salary,
                 users_statuses_id,
                 users_roles_id,
             } = req.body;

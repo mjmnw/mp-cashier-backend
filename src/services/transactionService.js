@@ -8,7 +8,8 @@ class TransactionService extends Service {
         users_id,
         transaction_total_price,
         transaction_status,
-        cart_quantity
+        cart_quantity,
+        products_id
     ) => {
         try {
             const findProduct = await db.products.findOne({
@@ -46,6 +47,12 @@ class TransactionService extends Service {
                 transaction_status,
             });
 
+            await db.transactions_details.create({
+                transaction_quantity: cart_quantity,
+                products_id,
+                transactions_lists_id: newTransaction.id
+            })
+
             const findCart = await db.users_carts.findAll({
                 where: {
                     users_id,
@@ -69,51 +76,6 @@ class TransactionService extends Service {
                 message: "Transaction Created",
                 statusCode: 200,
                 data: newTransaction,
-            });
-        } catch (error) {
-            console.log(error);
-            return this.handleError({
-                statusCode: 500,
-                message: "Server Error",
-            });
-        }
-    };
-
-    createDetailTransaction = async (
-        transaction_quantity,
-        products_id,
-        transactions_lists_id
-    ) => {
-        try {
-            const findProduct = await db.products.findOne({
-                where: {
-                    id: products_id,
-                },
-            });
-
-            const newTransactionDetail = await db.transactions_details.create({
-                transaction_quantity,
-                products_id,
-                transactions_lists_id,
-            });
-
-            await db.products.update(
-                {
-                    product_stock:
-                        findProduct.dataValues.product_stock -
-                        transaction_quantity,
-                },
-                {
-                    where: {
-                        id: products_id,
-                    },
-                }
-            );
-
-            return this.handleSuccess({
-                message: "Detail Transaction Created",
-                statusCode: 200,
-                data: newTransactionDetail,
             });
         } catch (error) {
             console.log(error);

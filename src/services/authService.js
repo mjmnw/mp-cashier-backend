@@ -72,6 +72,7 @@ class AuthService extends Service {
                 message: "User's Token Renewed",
                 data: {
                     tokens: renewedToken,
+                    user: findUser
                 },
             });
         } catch (error) {

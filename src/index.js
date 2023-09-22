@@ -32,6 +32,9 @@ app.use("/cart", cartRouter);
 app.use("/transaction", transactionRouter);
 app.use("/report", reportRouter);
 
+app.use("/profilepicture", express.static(`${__dirname}/public/profilePictures`));
+app.use("/products", express.static(`${__dirname}/public/products`));
+
 // Centralized Error
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500;

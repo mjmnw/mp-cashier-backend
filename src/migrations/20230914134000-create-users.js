@@ -30,6 +30,12 @@ module.exports = {
             address: {
                 type: Sequelize.STRING,
             },
+            gender: {
+                type: Sequelize.STRING,
+            },
+            salary: {
+                type: Sequelize.DECIMAL,
+            },
             profile_picture: {
                 type: Sequelize.STRING,
             },

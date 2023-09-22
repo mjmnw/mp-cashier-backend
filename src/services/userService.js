@@ -78,28 +78,55 @@ class UserService extends Service {
         }
     };
 
-    // static createUserProfilePicture = async (userId, profile_picture) => {
-    //     try {
-    //         const findUser = await db.users.findOne({
-    //             where: {
-    //                 id: userId,
-    //             },
-    //         });
+    static editUserProfilePicture = async (users_id, file) => {
+        try {
+            const findUser = await db.users.findOne({
+                where: {
+                    id: users_id,
+                },
+            });
 
-    //         if (!findUser) {
-    //             return this.handleError({
-    //                 message: "No user found!",
-    //                 statusCode: 404,
-    //             });
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //         return this.handleError({
-    //             statusCode: 500,
-    //             message: "Server Error",
-    //         });
-    //     }
-    // };
+            if (!findUser) {
+                return this.handleError({
+                    message: "No user found!",
+                    statusCode: 404,
+                });
+            }
+
+            const uploadFileDomain = process.env.UPLOAD_FILE_DOMAIN;
+
+            const filePath = "profilePictures";
+
+            const { filename } = file;
+
+            const newProfilePicture = `${uploadFileDomain}/${filePath}/${filename}`;
+
+            await db.users.update(
+                {
+                    profile_picture: newProfilePicture,
+                },
+                {
+                    where: {
+                        id: users_id,
+                    },
+                }
+            );
+
+            const findUpdatedUser = await db.users.findByPk(users_id);
+
+            return this.handleSuccess({
+                message: "Profile Picture Updated",
+                statusCode: 200,
+                data: findUpdatedUser,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
 }
 
 module.exports = UserService;

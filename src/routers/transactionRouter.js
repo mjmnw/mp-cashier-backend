@@ -8,12 +8,6 @@ router.post(
     transactionControllers.createTransaction
 );
 
-router.post(
-    "/add-new-transaction-detail",
-    authorizeLoggedInUser,
-    transactionControllers.createDetailTransaction
-);
-
 router.get(
     "/",
     authorizeLoggedInUser,

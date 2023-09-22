@@ -33,7 +33,7 @@ class CartService extends Service {
             }
 
             if (
-                findProduct.dataValues.product_stock <=
+                findProduct.dataValues.product_stock <
                 findUserCart.cart_quantity
             ) {
                 return this.handleError({

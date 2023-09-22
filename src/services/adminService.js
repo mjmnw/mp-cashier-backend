@@ -14,6 +14,8 @@ class AdminService extends Service {
         birthdate,
         phone_number,
         address,
+        gender,
+        salary,
         users_statuses_id,
         users_roles_id
     ) => {
@@ -38,6 +40,8 @@ class AdminService extends Service {
                 birthdate,
                 phone_number,
                 address,
+                gender,
+                salary,
                 users_statuses_id,
                 users_roles_id,
             });
@@ -115,6 +119,8 @@ class AdminService extends Service {
                     birthdate: body.birthdate,
                     phone_number: body.phone_number,
                     address: body.address,
+                    gender: body.gender,
+                    salary: body.salary,
                     users_statuses_id: body.users_statuses_id,
                     users_roles_id: body.users_roles_id,
                 },
