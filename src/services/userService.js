@@ -78,7 +78,14 @@ class UserService extends Service {
         }
     };
 
-    // static editUserProfilePicture = async (userId , profile_picture) => {
+    static createUserProfilePicture = async (userId , profile_picture) => {
+        try {
+            return await db.users.create({ ...data, profile_picture: dataImage });
+          } catch (error) {
+            return error;
+          }
+        };
+    }
     //     try {
     //         const findUser = await db.users.findOne({
     //             where: {
@@ -102,6 +109,13 @@ class UserService extends Service {
     //         });
     //     }
     // };
-}
+//     static createProductService: async (data, dataImage) => {
+//         try {
+//           return await db.product.create({ ...data, product_image: dataImage });
+//         } catch (error) {
+//           return error;
+//         }
+//       };
+// }
 
 module.exports = UserService;
