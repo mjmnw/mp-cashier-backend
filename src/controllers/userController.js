@@ -61,21 +61,6 @@ const userControllers = {
     //         });
     //     }
     // },
-
-    createUser: async (req, res, next) => {
-        try {
-          const data = JSON.parse(req.body.data);
-          const dataImage = req.files.images[0].path;
-          const addUser = await UserService.createUserProfilePicture (data, dataImage);
-          res.status(201).send({
-            isError: false,
-            message: "Product Added",
-            data: addUser,
-          });
-        } catch (error) {
-          next(error);
-        }
-      },
 };
 
 module.exports = userControllers;

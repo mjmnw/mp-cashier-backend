@@ -78,14 +78,7 @@ class UserService extends Service {
         }
     };
 
-    static createUserProfilePicture = async (userId , profile_picture) => {
-        try {
-            return await db.users.create({ ...data, profile_picture: dataImage });
-          } catch (error) {
-            return error;
-          }
-        };
-    }
+    // static createUserProfilePicture = async (userId, profile_picture) => {
     //     try {
     //         const findUser = await db.users.findOne({
     //             where: {
@@ -93,14 +86,12 @@ class UserService extends Service {
     //             },
     //         });
 
-    //         if(!findUser) {
+    //         if (!findUser) {
     //             return this.handleError({
     //                 message: "No user found!",
-    //                 statusCode: 404
-    //             })
+    //                 statusCode: 404,
+    //             });
     //         }
-
-    //         const findImage = await db.
     //     } catch (error) {
     //         console.log(error);
     //         return this.handleError({
@@ -109,13 +100,6 @@ class UserService extends Service {
     //         });
     //     }
     // };
-//     static createProductService: async (data, dataImage) => {
-//         try {
-//           return await db.product.create({ ...data, product_image: dataImage });
-//         } catch (error) {
-//           return error;
-//         }
-//       };
-// }
+}
 
 module.exports = UserService;
