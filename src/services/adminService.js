@@ -147,7 +147,7 @@ class AdminService extends Service {
 
     static getAllUsers = async (req) => {
         try {
-            const getUsersData = await db.users.findAll()
+            const getUsersData = await db.users.findAll();
 
             if (!getUsersData.length) {
                 return this.handleError({
@@ -160,6 +160,56 @@ class AdminService extends Service {
                 message: `Users found`,
                 statusCode: 200,
                 data: getUsersData,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
+    static editUserProfilePicture = async (users_id, file) => {
+        try {
+            const findUser = await db.users.findOne({
+                where: {
+                    id: users_id,
+                },
+            });
+
+            if (!findUser) {
+                return this.handleError({
+                    message: "No user found!",
+                    statusCode: 404,
+                });
+            }
+
+            const uploadFileDomain = process.env.UPLOAD_FILE_DOMAIN;
+
+            const filePath = "profilePictures";
+
+            const { filename } = file;
+
+            const newProfilePicture = `${uploadFileDomain}/${filePath}/${filename}`;
+
+            await db.users.update(
+                {
+                    profile_picture: newProfilePicture,
+                },
+                {
+                    where: {
+                        id: users_id,
+                    },
+                }
+            );
+
+            const findUpdatedUser = await db.users.findByPk(users_id);
+
+            return this.handleSuccess({
+                message: "Profile Picture Updated",
+                statusCode: 200,
+                data: findUpdatedUser,
             });
         } catch (error) {
             console.log(error);
@@ -252,21 +302,92 @@ class AdminService extends Service {
         }
     };
 
-    static getAllUsers = async (req) => {
+    static editProduct = async (req, body) => {
         try {
-            const getUsersData = await db.users.findAll()
+            const { productId } = req.params;
 
-            if (!getUsersData.length) {
+            const findProduct = await db.products.findOne({
+                where: {
+                    id: productId,
+                },
+            });
+
+            if (!findProduct) {
                 return this.handleError({
-                    message: `No user found`,
+                    statusCode: 404,
+                    message: `Product with ID: ${productId} not Found!`,
+                });
+            }
+
+            const editProductData = await db.products.update(
+                {
+                    product_name: body.product_name,
+                    product_description: body.product_description,
+                    product_price: body.product_price,
+                    products_statuses_id: body.products_statuses_id,
+                    products_categories_id: body.products_categories_id,
+                },
+                {
+                    where: {
+                        id: productId,
+                    },
+                }
+            );
+
+            return this.handleSuccess({
+                message: "Product Edit Success",
+                statusCode: 200,
+                data: editProductData,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                statusCode: 500,
+                message: "Server Error",
+            });
+        }
+    };
+
+    static editProductImage = async (products_id, file) => {
+        try {
+            const findProduct = await db.products.findOne({
+                where: {
+                    id: products_id,
+                },
+            });
+
+            if (!findProduct) {
+                return this.handleError({
+                    message: "No product found!",
                     statusCode: 404,
                 });
             }
 
+            const uploadFileDomain = process.env.UPLOAD_FILE_DOMAIN;
+
+            const filePath = "products";
+
+            const { filename } = file;
+
+            const newProductImage = `${uploadFileDomain}/${filePath}/${filename}`;
+
+            await db.products.update(
+                {
+                    product_image: newProductImage,
+                },
+                {
+                    where: {
+                        id: products_id,
+                    },
+                }
+            );
+
+            const findUpdatedImage = await db.products.findByPk(products_id);
+
             return this.handleSuccess({
-                message: `Users found`,
+                message: "Product Picture Updated",
                 statusCode: 200,
-                data: getUsersData,
+                data: findUpdatedImage,
             });
         } catch (error) {
             console.log(error);

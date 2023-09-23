@@ -114,6 +114,29 @@ const adminControllers = {
         }
     },
 
+    editUserProfilePicture: async (req, res) => {
+        try {
+            const { users_id } = req.params;
+
+            const serviceResult = await AdminService.editUserProfilePicture(
+                users_id,
+                req.file
+            );
+
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
+
     // Product
     addProduct: async (req, res) => {
         try {
@@ -182,6 +205,29 @@ const adminControllers = {
             } = req.body;
 
             const serviceResult = await AdminService.editProduct(req, req.body);
+
+            if (!serviceResult.success) throw serviceResult;
+
+            return res.status(serviceResult.statusCode || 200).json({
+                message: serviceResult.message,
+                result: serviceResult.data,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(error.statusCode || 500).json({
+                message: error.message,
+            });
+        }
+    },
+
+    editProductImage: async (req, res) => {
+        try {
+            const { products_id } = req.params;
+
+            const serviceResult = await AdminService.editProductImage(
+                products_id,
+                req.file
+            );
 
             if (!serviceResult.success) throw serviceResult;
 

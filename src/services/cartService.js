@@ -43,7 +43,7 @@ class CartService extends Service {
             }
 
             if (findCart) {
-                const res = await db.users_carts.update(
+                await db.users_carts.update(
                     {
                         cart_quantity:
                             cart_quantity + findCart.dataValues.cart_quantity,
