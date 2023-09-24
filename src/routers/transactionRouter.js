@@ -14,4 +14,10 @@ router.get(
     transactionControllers.getAllTransactions
 );
 
+router.get(
+    "/get-details/:transactionId",
+    authorizeLoggedInUser,
+    transactionControllers.getTransactionsDetailByListId
+);
+
 module.exports = router;

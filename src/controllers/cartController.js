@@ -5,6 +5,8 @@ const cartControllers = {
         try {
             const { users_id, products_id, cart_quantity } = req.body;
 
+            // console.log(req.body)
+
             const serviceResult = await CartService.addToCart(
                 users_id,
                 products_id,

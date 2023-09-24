@@ -10,7 +10,7 @@ router.get(
     cartController.getCartByCartId
 );
 router.get(
-    "/get-cart/user=:userId",
+    "/get-cart/:userId",
     authorizeLoggedInUser,
     cartController.getCartByUserId
 );

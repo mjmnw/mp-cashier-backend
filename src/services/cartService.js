@@ -13,40 +13,11 @@ class CartService extends Service {
                 },
             });
 
-            const findProduct = await db.products.findOne({
-                where: {
-                    id: products_id,
-                },
-            });
-
-            const findUserCart = await db.users_carts.findOne({
-                where: {
-                    products_id,
-                },
-            });
-
-            if (!findProduct) {
-                return this.handleError({
-                    message: "Product not Found",
-                    statusCode: 404,
-                });
-            }
-
-            if (
-                findProduct.dataValues.product_stock <
-                findUserCart.cart_quantity
-            ) {
-                return this.handleError({
-                    message: "Stock not Available",
-                    statusCode: 400,
-                });
-            }
-
             if (findCart) {
                 await db.users_carts.update(
                     {
                         cart_quantity:
-                            cart_quantity + findCart.dataValues.cart_quantity,
+                            cart_quantity + findCart.cart_quantity,
                     },
                     {
                         where: {
@@ -60,6 +31,35 @@ class CartService extends Service {
                     users_id,
                     products_id,
                     cart_quantity,
+                });
+            }
+
+            const findProduct = await db.products.findOne({
+                where: {
+                    id: products_id,
+                },
+            });
+
+            const findUserCart = await db.users_carts.findOne({
+                where: {
+                    products_id,
+                },
+            });
+
+            // if (!findProduct) {
+            //     return this.handleError({
+            //         message: "Product not Found",
+            //         statusCode: 404,
+            //     });
+            // }
+
+            if (
+                findProduct.dataValues.product_stock <
+                findUserCart.cart_quantity
+            ) {
+                return this.handleError({
+                    message: "Stock not Available",
+                    statusCode: 400,
                 });
             }
 

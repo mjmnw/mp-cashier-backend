@@ -22,15 +22,24 @@ class AuthService extends Service {
                 },
             });
 
+            if (!findUser) {
+                return this.handleError({
+                    message: "No User Found",
+                    statusCode: 400,
+                    isError: true
+                });
+            }
+
             const comparePassword = bcrypt.compareSync(
                 password,
                 findUser.password
             );
 
-            if (!findUser || !comparePassword) {
+            if (!comparePassword) {
                 return this.handleError({
-                    message: "Wrong username, email or password!",
+                    message: "Wrong password!",
                     statusCode: 400,
+                    isError: true
                 });
             }
 
@@ -72,7 +81,7 @@ class AuthService extends Service {
                 message: "User's Token Renewed",
                 data: {
                     tokens: renewedToken,
-                    user: findUser
+                    user: findUser,
                 },
             });
         } catch (error) {

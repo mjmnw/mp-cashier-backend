@@ -11,6 +11,7 @@ class TransactionService extends Service {
         cart_quantity,
         products_id
     ) => {
+
         try {
             const findProduct = await db.products.findOne({
                 where: {
@@ -59,18 +60,18 @@ class TransactionService extends Service {
                 },
             });
 
-            if (findCart) {
-                await db.users_carts.destroy({
-                    where: {
-                        users_id,
-                    },
-                });
-            } else {
-                return this.handleError({
-                    message: "Cart not Found",
-                    statusCode: 404,
-                });
-            }
+            // if (findCart) {
+            //     await db.users_carts.destroy({
+            //         where: {
+            //             users_id,
+            //         },
+            //     });
+            // } else {
+            //     return this.handleError({
+            //         message: "Cart not Found",
+            //         statusCode: 404,
+            //     });
+            // }
 
             return this.handleSuccess({
                 message: "Transaction Created",
@@ -177,6 +178,37 @@ class TransactionService extends Service {
             return this.handleError({
                 statusCode: 500,
                 message: "Server Error",
+            });
+        }
+    };
+
+    static getTransactionsDetailByListId = async (transactionId) => {
+        try {
+            const transactionDetail = await db.transactions_details.findAll({
+                where: {
+                    transactions_lists_id: transactionId,
+                },
+                include: db.products,
+                
+            });
+
+            if (!transactionDetail.length) {
+                return this.handleError({
+                    message: "Transaction details not Found",
+                    statusCode: 404,
+                });
+            }
+
+            return this.handleSuccess({
+                message: "Transaction details Found",
+                statusCode: 200,
+                data: transactionDetail,
+            });
+        } catch (error) {
+            console.log(error);
+            return this.handleError({
+                message: "Server Error",
+                statusCode: 500,
             });
         }
     };

@@ -14,11 +14,13 @@ const authControllers = {
             return res.status(serviceResult.statusCode || 200).json({
                 message: serviceResult.message,
                 result: serviceResult.data,
+                isError: serviceResult.isError,
             });
         } catch (error) {
             console.log(error);
             return res.status(error.statusCode || 500).json({
                 message: error.message,
+                isError: error.isError,
             });
         }
     },
